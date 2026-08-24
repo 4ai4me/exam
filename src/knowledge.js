@@ -6529,18 +6529,20 @@ function initUI(){
 
 function renderSidebar(){
   const listEl = $('courseList');
-  listEl.innerHTML = '';
-  CATEGORIES.forEach(cat => {
-    const count = FULL_BANK.filter(q => q.category === cat).length;
-    const btn = document.createElement('button');
-    btn.className = 'course';
-    btn.dataset.cat = cat;
-    btn.innerHTML = `<span>${cat}</span><small>${count}</small>`;
-    btn.onclick = () => selectCategory(cat);
-    listEl.appendChild(btn);
-  });
-  $('allCount').textContent = FULL_BANK.length;
-  $('bankStat').textContent = FULL_BANK.length;
+  if (listEl) {
+    listEl.innerHTML = '';
+    CATEGORIES.forEach(cat => {
+      const count = FULL_BANK.filter(q => q.category === cat).length;
+      const btn = document.createElement('button');
+      btn.className = 'course';
+      btn.dataset.cat = cat;
+      btn.innerHTML = `<span>${cat}</span><small>${count}</small>`;
+      btn.onclick = () => selectCategory(cat);
+      listEl.appendChild(btn);
+    });
+  }
+  const allEl = $('allCount'); if (allEl) allEl.textContent = FULL_BANK.length;
+  const bStatEl = $('bankStat'); if (bStatEl) bStatEl.textContent = FULL_BANK.length;
 }
 
 function selectCategory(cat){
@@ -6548,7 +6550,8 @@ function selectCategory(cat){
   document.querySelectorAll('.course').forEach(b => {
     b.classList.toggle('active', b.dataset.cat === cat);
   });
-  $('courseTitle').textContent = cat === 'ALL' ? '전체 통합 실무 과정' : `[${cat}] 실무 심층 과정`;
+  const cTitle = $('courseTitle');
+  if (cTitle) cTitle.textContent = cat === 'ALL' ? '전체 통합 실무 과정' : `[${cat}] 실무 심층 과정`;
   loadNewQuiz();
 }
 
@@ -6622,11 +6625,13 @@ function loadNewQuiz(){
   renderChips();
   renderQuiz();
   updateStats();
-  $('progressResult').textContent = '';
+  const progRes = $('progressResult');
+  if (progRes) progRes.textContent = '';
 }
 
 function renderChips(){
   const container = $('chips');
+  if (!container) return;
   container.innerHTML = '';
   const cats = [...new Set(state.currentQuestions.map(q => q.category))];
   cats.forEach(c => {
@@ -6639,6 +6644,7 @@ function renderChips(){
 
 function renderQuiz(){
   const quizEl = $('quiz');
+  if (!quizEl) return;
   quizEl.innerHTML = '';
 
   if (state.currentQuestions.length === 0) {
@@ -6790,10 +6796,10 @@ function executeGrading(){
   const total = state.currentQuestions.length;
   const score = Math.round((correctCount / total) * 100);
 
-  $('scoreStat').textContent = `${score}점`;
-  $('correctStat').textContent = `${correctCount}`;
-  $('wrongStat').textContent = `${total - correctCount}`;
-  $('progressResult').textContent = `최종 점수: ${score}점 (${correctCount}/${total})`;
+  const scoreEl = $('scoreStat'); if (scoreEl) scoreEl.textContent = `${score}점`;
+  const corrEl = $('correctStat'); if (corrEl) corrEl.textContent = `${correctCount}`;
+  const wrongEl = $('wrongStat'); if (wrongEl) wrongEl.textContent = `${total - correctCount}`;
+  const progResEl = $('progressResult'); if (progResEl) progResEl.textContent = `최종 점수: ${score}점 (${correctCount}/${total})`;
 
   renderQuiz();
   renderAnswerSheet();
@@ -6814,9 +6820,12 @@ function toggleMode(){
 
 function updateModeUI(){
   const isStudy = state.mode === 'study';
-  $('modeBtn').className = `btn ${isStudy ? 'mode-study' : 'mode-exam'}`;
-  $('modeText').textContent = isStudy ? '즉시 정답 학습 모드' : '실전 시험 모드';
-  $('modeIndicator').textContent = isStudy ? '● 즉시 해설 & 정답 학습 모드' : '● 실전 시험 & 채점 모드';
+  const modeBtn = $('modeBtn');
+  if (modeBtn) modeBtn.className = `btn ${isStudy ? 'mode-study' : 'mode-exam'}`;
+  const modeText = $('modeText');
+  if (modeText) modeText.textContent = isStudy ? '즉시 정답 학습 모드' : '실전 시험 모드';
+  const modeInd = $('modeIndicator');
+  if (modeInd) modeInd.textContent = isStudy ? '● 즉시 해설 & 정답 학습 모드' : '● 실전 시험 & 채점 모드';
   renderQuiz();
 }
 
@@ -6852,16 +6861,17 @@ function toggleBookmark(id){
 function updateStats(){
   const total = state.currentQuestions.length;
   const answered = Object.keys(state.userAnswers).length;
-  $('shownStat').textContent = total;
-  $('answeredStat').textContent = answered;
-  $('progressAnswered').textContent = answered;
-  $('progressTotal').textContent = total;
+  const shownEl = $('shownStat'); if (shownEl) shownEl.textContent = total;
+  const ansEl = $('answeredStat'); if (ansEl) ansEl.textContent = answered;
+  const progAnsEl = $('progressAnswered'); if (progAnsEl) progAnsEl.textContent = answered;
+  const progTotEl = $('progressTotal'); if (progTotEl) progTotEl.textContent = total;
   updateWrongBadge();
 }
 
 function updateWrongBadge(){
   const cnt = state.wrongNotes.length;
-  $('wrongBadge').textContent = cnt > 0 ? `(${cnt})` : '';
+  const badgeEl = $('wrongBadge');
+  if (badgeEl) badgeEl.textContent = cnt > 0 ? `(${cnt})` : '';
 }
 
 function startTimer(){
@@ -6870,7 +6880,8 @@ function startTimer(){
     state.seconds++;
     const m = String(Math.floor(state.seconds / 60)).padStart(2, '0');
     const s = String(state.seconds % 60).padStart(2, '0');
-    $('timerText').textContent = `${m}:${s}`;
+    const timerEl = $('timerText');
+    if (timerEl) timerEl.textContent = `${m}:${s}`;
   }, 1000);
 }
 
@@ -6881,13 +6892,13 @@ function openCustomSelectModal(){
     catSel.innerHTML = '<option value="ALL">전체 분야</option>' + CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
   }
   renderCustomList();
-  modal.classList.add('open');
+  if (modal) modal.classList.add('open');
 }
 
 function renderCustomList(){
-  const kw = ($('customSearch').value || '').toLowerCase().trim();
-  const cat = $('customCat').value;
-  const diff = $('customDiff').value;
+  const kw = ($('customSearch') ? $('customSearch').value : '').toLowerCase().trim();
+  const cat = $('customCat') ? $('customCat').value : 'ALL';
+  const diff = $('customDiff') ? $('customDiff').value : 'ALL';
 
   const filtered = FULL_BANK.filter(q => {
     if (cat !== 'ALL' && q.category !== cat) return false;
@@ -6901,11 +6912,12 @@ function renderCustomList(){
     return true;
   });
 
-  $('customFilteredCount').textContent = filtered.length;
-  $('customSelectedCount').textContent = state.customSelectedIds.size;
-  $('customTotalCount').textContent = FULL_BANK.length;
+  const filtEl = $('customFilteredCount'); if (filtEl) filtEl.textContent = filtered.length;
+  const selEl = $('customSelectedCount'); if (selEl) selEl.textContent = state.customSelectedIds.size;
+  const totEl = $('customTotalCount'); if (totEl) totEl.textContent = FULL_BANK.length;
 
   const body = $('customListBody');
+  if (!body) return;
   if (filtered.length === 0) {
     body.innerHTML = '<div class="empty">검색/필터 조건에 맞는 문제가 없습니다.</div>';
     return;
@@ -6937,7 +6949,8 @@ function renderCustomList(){
       } else {
         state.customSelectedIds.delete(qid);
       }
-      $('customSelectedCount').textContent = state.customSelectedIds.size;
+      const sEl = $('customSelectedCount');
+      if (sEl) sEl.textContent = state.customSelectedIds.size;
       const parent = chk.closest('div');
       if (parent) {
         parent.style.background = chk.checked ? 'rgba(37,99,235,0.08)' : 'var(--panel)';
@@ -6949,13 +6962,17 @@ function renderCustomList(){
 function renderGlossary(){
   const body = $('glossaryBody');
   const catSel = $('glossaryCat');
-  catSel.innerHTML = '<option value="ALL">전체 분야</option>' + CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  if (catSel) {
+    catSel.innerHTML = '<option value="ALL">전체 분야</option>' + CATEGORIES.map(c => `<option value="${c}">${c}</option>`).join('');
+  }
 
-  $('conceptCount').textContent = `(${CONCEPTS.length}개 항목)`;
+  const cCount = $('conceptCount');
+  if (cCount) cCount.textContent = `(${CONCEPTS.length}개 항목)`;
 
   function filterGlossary(){
-    const kw = ($('glossarySearch').value || '').toLowerCase();
-    const cat = $('glossaryCat').value;
+    if (!body) return;
+    const kw = ($('glossarySearch') ? $('glossarySearch').value : '').toLowerCase();
+    const cat = $('glossaryCat') ? $('glossaryCat').value : 'ALL';
 
     const filtered = CONCEPTS.filter(c => {
       if (cat !== 'ALL' && c.category !== cat) return false;
@@ -6983,13 +7000,14 @@ function renderGlossary(){
     `).join('');
   }
 
-  $('glossarySearch').oninput = filterGlossary;
-  $('glossaryCat').onchange = filterGlossary;
+  if ($('glossarySearch')) $('glossarySearch').oninput = filterGlossary;
+  if ($('glossaryCat')) $('glossaryCat').onchange = filterGlossary;
   filterGlossary();
 }
 
 function renderWrongNotes(tab='wrong'){
   const body = $('wrongBody');
+  if (!body) return;
   if (tab === 'wrong') {
     if (state.wrongNotes.length === 0) {
       body.innerHTML = '<div class="empty">기록된 오답이 없습니다. 훌륭합니다!</div>';
@@ -7034,6 +7052,7 @@ window.removeWrong = function(idx){
 
 function renderAnswerSheet(){
   const sheet = $('answerSheet');
+  if (!sheet) return;
   sheet.innerHTML = `
     <h3>정답 및 해설지</h3>
     <table>
@@ -7054,41 +7073,45 @@ function renderAnswerSheet(){
 }
 
 function setupEvents(){
-  $('modeBtn').onclick = toggleMode;
-  $('newBtn').onclick = loadNewQuiz;
-  $('bottomNew').onclick = loadNewQuiz;
-  $('gradeBtn').onclick = gradeQuiz;
-  $('bottomGrade').onclick = gradeQuiz;
+  const bindClick = (id, fn) => { const el = $(id); if (el) el.onclick = fn; };
+  const bindChange = (id, fn) => { const el = $(id); if (el) el.onchange = fn; };
+  const bindInput = (id, fn) => { const el = $(id); if (el) el.oninput = fn; };
 
-  $('countSel').onchange = e => { state.count = parseInt(e.target.value, 10); loadNewQuiz(); };
-  $('diffSel').onchange = e => { state.difficulty = e.target.value; loadNewQuiz(); };
-  $('typeSel').onchange = e => { state.type = e.target.value; loadNewQuiz(); };
-  $('pickSel').onchange = e => {
+  bindClick('modeBtn', toggleMode);
+  bindClick('newBtn', loadNewQuiz);
+  bindClick('bottomNew', loadNewQuiz);
+  bindClick('gradeBtn', gradeQuiz);
+  bindClick('bottomGrade', gradeQuiz);
+
+  bindChange('countSel', e => { state.count = parseInt(e.target.value, 10); loadNewQuiz(); });
+  bindChange('diffSel', e => { state.difficulty = e.target.value; loadNewQuiz(); });
+  bindChange('typeSel', e => { state.type = e.target.value; loadNewQuiz(); });
+  bindChange('pickSel', e => {
     state.pick = e.target.value;
     if (state.pick === 'custom') {
       openCustomSelectModal();
     } else {
       loadNewQuiz();
     }
-  };
-  $('searchInput').oninput = e => { state.search = e.target.value; loadNewQuiz(); };
+  });
+  bindInput('searchInput', e => { state.search = e.target.value; loadNewQuiz(); });
 
-  $('resetFilter').onclick = () => {
-    $('countSel').value = "20"; state.count = 20;
-    $('diffSel').value = "ALL"; state.difficulty = "ALL";
-    $('typeSel').value = "ALL"; state.type = "ALL";
-    $('pickSel').value = "balanced"; state.pick = "balanced";
-    $('searchInput').value = ""; state.search = "";
+  bindClick('resetFilter', () => {
+    if ($('countSel')) $('countSel').value = "20"; state.count = 20;
+    if ($('diffSel')) $('diffSel').value = "ALL"; state.difficulty = "ALL";
+    if ($('typeSel')) $('typeSel').value = "ALL"; state.type = "ALL";
+    if ($('pickSel')) $('pickSel').value = "balanced"; state.pick = "balanced";
+    if ($('searchInput')) $('searchInput').value = ""; state.search = "";
     loadNewQuiz();
-  };
+  });
 
   // Custom Selection Modal
-  $('customSelectBtn').onclick = openCustomSelectModal;
-  $('customSearch').oninput = renderCustomList;
-  $('customCat').onchange = renderCustomList;
-  $('customDiff').onchange = renderCustomList;
+  bindClick('customSelectBtn', openCustomSelectModal);
+  bindInput('customSearch', renderCustomList);
+  bindChange('customCat', renderCustomList);
+  bindChange('customDiff', renderCustomList);
 
-  $('customSelectAllVisible').onclick = () => {
+  bindClick('customSelectAllVisible', () => {
     const visibleChks = document.querySelectorAll('#customListBody .custom-q-chk');
     visibleChks.forEach(chk => {
       chk.checked = true;
@@ -7096,10 +7119,11 @@ function setupEvents(){
       const parent = chk.closest('div');
       if (parent) parent.style.background = 'rgba(37,99,235,0.08)';
     });
-    $('customSelectedCount').textContent = state.customSelectedIds.size;
-  };
+    const selEl = $('customSelectedCount');
+    if (selEl) selEl.textContent = state.customSelectedIds.size;
+  });
 
-  $('customClearAll').onclick = () => {
+  bindClick('customClearAll', () => {
     state.customSelectedIds.clear();
     const chks = document.querySelectorAll('#customListBody .custom-q-chk');
     chks.forEach(chk => {
@@ -7107,39 +7131,55 @@ function setupEvents(){
       const parent = chk.closest('div');
       if (parent) parent.style.background = 'var(--panel)';
     });
-    $('customSelectedCount').textContent = 0;
-  };
+    const selEl = $('customSelectedCount');
+    if (selEl) selEl.textContent = 0;
+  });
 
-  $('customApplyBtn').onclick = () => {
+  bindClick('customApplyBtn', () => {
     if (state.customSelectedIds.size === 0) {
       alert('선택된 문제가 없습니다. 출제할 문제를 체크박스로 1개 이상 선택해 주세요.');
       return;
     }
     state.pick = 'custom';
-    $('pickSel').value = 'custom';
-    $('customSelectModal').classList.remove('open');
+    if ($('pickSel')) $('pickSel').value = 'custom';
+    const cModal = $('customSelectModal');
+    if (cModal) cModal.classList.remove('open');
     loadNewQuiz();
-  };
+  });
 
   // Password Modal
-  $('pwdConfirmBtn').onclick = verifyPassword;
-  $('pwdCancelBtn').onclick = () => $('passwordModal').classList.remove('open');
-  $('pwdInput').onkeydown = e => {
-    if (e.key === 'Enter') verifyPassword();
-  };
+  bindClick('pwdConfirmBtn', verifyPassword);
+  bindClick('pwdCancelBtn', () => {
+    const pModal = $('passwordModal');
+    if (pModal) pModal.classList.remove('open');
+  });
+  const pwdIn = $('pwdInput');
+  if (pwdIn) {
+    pwdIn.onkeydown = e => {
+      if (e.key === 'Enter') verifyPassword();
+    };
+  }
 
   // Modals
-  $('glossaryBtn').onclick = () => $('glossaryModal').classList.add('open');
-  $('footerGlossary').onclick = () => $('glossaryModal').classList.add('open');
-  $('wrongBtn').onclick = () => {
+  bindClick('glossaryBtn', () => {
+    const gm = $('glossaryModal');
+    if (gm) gm.classList.add('open');
+  });
+  bindClick('footerGlossary', () => {
+    const gm = $('glossaryModal');
+    if (gm) gm.classList.add('open');
+  });
+  bindClick('wrongBtn', () => {
     renderWrongNotes('wrong');
-    $('wrongModal').classList.add('open');
-  };
+    const wm = $('wrongModal');
+    if (wm) wm.classList.add('open');
+  });
 
   document.querySelectorAll('[data-close]').forEach(btn => {
     btn.onclick = () => {
       const mid = btn.dataset.close;
-      $(mid).classList.remove('open');
+      const target = $(mid);
+      if (target) target.classList.remove('open');
     };
   });
 
@@ -7157,50 +7197,54 @@ function setupEvents(){
     };
   });
 
-  $('clearWrong').onclick = () => {
+  bindClick('clearWrong', () => {
     if (confirm('오답 노트를 모두 초기화하시겠습니까?')) {
       state.wrongNotes = [];
       localStorage.removeItem('quiz_wrong');
       renderWrongNotes('wrong');
       updateWrongBadge();
     }
-  };
+  });
 
-  $('retryWrong').onclick = () => {
+  bindClick('retryWrong', () => {
     if (state.wrongNotes.length === 0) {
       alert('오답 기록이 없습니다.');
       return;
     }
     state.pick = 'weak';
-    $('pickSel').value = 'weak';
-    $('wrongModal').classList.remove('open');
+    if ($('pickSel')) $('pickSel').value = 'weak';
+    const wm = $('wrongModal');
+    if (wm) wm.classList.remove('open');
     loadNewQuiz();
-  };
+  });
 
   // Printing
-  $('problemPrintBtn').onclick = () => {
+  bindClick('problemPrintBtn', () => {
     document.body.classList.remove('print-answer');
     document.body.classList.add('print-problem');
-    $('printMeta').textContent = `과정: ${state.selectedCategory} | 총 ${state.currentQuestions.length}문항 | 일자: ${new Date().toLocaleDateString()}`;
+    const pMeta = $('printMeta');
+    if (pMeta) pMeta.textContent = `과정: ${state.selectedCategory} | 총 ${state.currentQuestions.length}문항 | 일자: ${new Date().toLocaleDateString()}`;
     window.print();
-  };
+  });
 
-  $('answerPrintBtn').onclick = () => {
+  bindClick('answerPrintBtn', () => {
     requirePassword(() => {
       renderAnswerSheet();
       document.body.classList.remove('print-problem');
       document.body.classList.add('print-answer');
-      $('printMeta').textContent = `[정답 및 해설] 과정: ${state.selectedCategory} | 총 ${state.currentQuestions.length}문항 | 일자: ${new Date().toLocaleDateString()}`;
+      const pMeta = $('printMeta');
+      if (pMeta) pMeta.textContent = `[정답 및 해설] 과정: ${state.selectedCategory} | 총 ${state.currentQuestions.length}문항 | 일자: ${new Date().toLocaleDateString()}`;
       window.print();
     });
-  };
+  });
 
   // Theme
-  $('themeBtn').onclick = () => {
+  bindClick('themeBtn', () => {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
-    $('themeBtn').textContent = isDark ? '☀️' : '🌙';
-  };
+    const tBtn = $('themeBtn');
+    if (tBtn) tBtn.textContent = isDark ? '☀️' : '🌙';
+  });
 }
 
 // Start

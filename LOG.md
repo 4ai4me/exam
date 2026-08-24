@@ -335,6 +335,30 @@
 - `compile_applet` 빌드 성공 확인
 - `lint_applet` TypeScript 무오류 검증 완료
 
+---
+
+## [2026-08-24 02:45] DOM 요소 참조 오류 수정 및 안전성 강화 (REQ-017)
+
+### 1. 수정 배경 및 원인 분석
+- **오류 증상**: `Uncaught TypeError: Cannot set properties of null (setting 'textContent')`
+- **원인 분석**:
+  1. `src/knowledge.js`의 `renderCustomList()` 함수에서 `$('customTotalCount')` 요소를 참조하여 `textContent`를 설정하려고 했으나, `index.html`에 해당 ID를 가진 엘리먼트가 정의되어 있지 않아 `null` 참조 오류 발생.
+  2. 통계 업데이트(`updateStats`), 타이머(`startTimer`), 채점 결과 표시(`executeGrading`), 이벤트 리스너 바인딩(`setupEvents`) 등에서 DOM 요소 유무를 확인하는 방어적 널 체크(null check)가 누락되어 비동기 DOM 로드 시 잠재적 에러 위험 존재.
+
+### 2. 수정 내역
+1. **`index.html` 수정**:
+   - 직접 선택 모달(`customSelectModal`)의 통계 표시 영역에 `<span id="customTotalCount">0</span>` 요소 추가.
+   - 전체 문제 수 표기를 1,800문항으로 완전 동기화.
+2. **`src/knowledge.js` 수정**:
+   - `updateStats()`, `updateWrongBadge()`, `startTimer()`, `renderCustomList()`, `renderSidebar()`, `selectCategory()`, `loadNewQuiz()`, `renderChips()`, `renderQuiz()`, `executeGrading()`, `updateModeUI()`, `renderGlossary()`, `renderAnswerSheet()`, `setupEvents()` 내의 모든 DOM 접근 로직에 방어적 널 체크(null-guard) 적용.
+   - 이벤트 리스너 바인딩 헬퍼(`bindClick`, `bindChange`, `bindInput`)를 도입하여 요소가 존재하지 않더라도 스크립트 실행이 중단되지 않도록 안정화.
+
+### 3. 검증 결과
+- `compile_applet` 빌드 성공 확인.
+- `lint_applet` 린트 검사 통과.
+- 앱 실행 시 `Cannot set properties of null` 예외 완전 소멸 및 1,800문항 퀴즈 시스템 정상 작동 확인.
+
+
 
 
 
