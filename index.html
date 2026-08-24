@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>전장 설계 실무 아카데미 Quiz v4.7</title>
+<meta name="description" content="전장 설계 실무 아카데미 오프라인 단일 HTML 버전">
+<style>
+:root{--bg:#f8fafc;--panel:#fff;--panel2:#f8fafc;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--nav:#1e293b;--blue:#2563eb;--green:#059669;--red:#e11d48;--amber:#d97706;--shadow:0 4px 16px rgba(15,23,42,.07)}
+html.dark{--bg:#0f172a;--panel:#111827;--panel2:#172033;--text:#e5e7eb;--muted:#94a3b8;--line:#293548;--shadow:0 4px 16px rgba(0,0,0,.25)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}
+button,select,input{font:inherit}button{cursor:pointer}
+header{height:64px;position:sticky;top:0;z-index:50;background:var(--nav);color:#fff;border-bottom:1px solid #475569;display:flex;align-items:center;justify-content:space-between;padding:0 22px;box-shadow:0 5px 18px rgba(0,0,0,.18)}
+.brand{display:flex;align-items:center;gap:10px;min-width:250px}.logo{width:32px;height:32px;border-radius:6px;background:#3b82f6;display:grid;place-items:center;font-weight:900;font-style:italic}.brand strong{font-size:16px}.version{font-size:11px;color:#94a3b8;margin-left:5px}
+.top-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
+.btn{border:1px solid transparent;border-radius:7px;padding:7px 10px;font-size:12px;font-weight:700;transition:.15s}
+.btn:hover{filter:brightness(.96)}.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#059669;color:#fff}.btn-amber{background:#d97706;color:#fff}.btn-nav{background:#263449;color:#e2e8f0;border-color:#435168}.btn-light{background:var(--panel);color:var(--text);border-color:var(--line)}
+.timer{font-family:Consolas,monospace;min-width:76px;text-align:center}.mode-study{background:#064e3b;color:#a7f3d0;border-color:#047857}.mode-exam{background:#312e81;color:#c7d2fe;border-color:#4338ca}
+.app{max-width:1450px;margin:auto;padding:20px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}
+.sidebar{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 105px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow)}
+.sidebar h3{margin:3px 6px 10px;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.course{width:100%;display:flex;align-items:center;justify-content:space-between;background:transparent;border:1px solid transparent;border-radius:8px;color:var(--text);padding:9px 10px;text-align:left;font-size:12px}
+.course:hover{background:var(--panel2)}.course.active{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}html.dark .course.active{background:#172554;color:#93c5fd;border-color:#1e3a8a}.course small{color:var(--muted)}
+.content{min-width:0}
+.control-panel,.stats,.notice,.course-head,.card,.floating{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.control-panel{padding:14px;margin-bottom:13px}.control-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase}
+.controls{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.ctrl label{display:block;font-size:10px;font-weight:800;color:var(--muted);margin-bottom:5px;text-transform:uppercase}.ctrl select,.ctrl input{width:100%;padding:8px 9px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);color:var(--text);font-size:12px;outline:none}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:0;margin-bottom:13px;overflow:hidden}.stat{padding:12px 13px;border-right:1px solid var(--line)}.stat:last-child{border-right:0}.stat b{font-size:20px;display:block}.stat span{font-size:10px;color:var(--muted)}
+.notice{padding:11px 13px;border-left:4px solid #f59e0b;background:#fffbeb;color:#92400e;font-size:12px;line-height:1.55;margin-bottom:13px}html.dark .notice{background:#2a2113;color:#fcd34d}
+.course-head{padding:13px 15px;margin-bottom:13px}.course-head-row{display:flex;align-items:center;justify-content:space-between;gap:10px}.course-head h2{font-size:14px;margin:0}.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.chip{border:1px solid var(--line);background:var(--panel2);color:var(--muted);border-radius:6px;padding:4px 7px;font-size:10px}.chip:hover{color:#2563eb;border-color:#93c5fd}
+.quiz{display:flex;flex-direction:column;gap:12px}.card{padding:16px 18px}.qhead{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.qnum{width:30px;height:30px;border-radius:50%;background:#0f172a;color:#fff;display:grid;place-items:center;font-weight:900;font-size:12px}.badge{padding:3px 7px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);font-size:10px;color:var(--muted)}.bookmark{margin-left:auto;border:0;background:transparent;color:#94a3b8;font-size:18px;padding:2px 5px}.bookmark.on{color:#f59e0b}
+.question{font-size:15px;font-weight:800;line-height:1.6;margin:11px 0 10px}.options{display:grid;gap:7px}.option{display:flex;align-items:flex-start;gap:9px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:var(--panel);font-size:12px;line-height:1.5;cursor:pointer}.option:hover{border-color:#93c5fd;background:#f8fbff}html.dark .option:hover{background:#172554}.option.selected{border-color:#60a5fa;background:#eff6ff}html.dark .option.selected{background:#172554}.option.correct{border-color:#86efac;background:#f0fdf4}html.dark .option.correct{background:#052e16}.option.wrong{border-color:#fda4af;background:#fff1f2}html.dark .option.wrong{background:#4c0519}.option input{margin-top:3px}
+.explain{display:none;margin-top:10px;padding:10px 12px;background:var(--panel2);border-left:4px solid #64748b;border-radius:6px;font-size:11px;line-height:1.65}.explain.show{display:block}.result-ok{font-weight:800;color:#047857;margin-bottom:4px}.result-bad{font-weight:800;color:#be123c;margin-bottom:4px}.formula{margin-top:6px;padding:6px 8px;background:var(--panel);border:1px dashed var(--line);border-radius:5px;font-family:Consolas,monospace}
+.empty{padding:55px 20px;text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;color:var(--muted)}
+.floating{position:sticky;bottom:12px;margin-top:16px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;gap:10px;backdrop-filter:blur(10px);background:color-mix(in srgb,var(--panel) 94%,transparent);z-index:20}.progress{font-size:11px;color:var(--muted)}
+footer{height:48px;background:var(--panel);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;color:var(--muted);font-size:11px;margin-top:25px}
+.modal-back{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:18px}.modal-back.open{display:flex}.modal{width:min(900px,100%);max-height:88vh;background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.35)}.modal-head{padding:15px 18px;background:#1e293b;color:#fff;display:flex;align-items:center;justify-content:space-between}.modal-head h2{font-size:15px;margin:0}.xbtn{border:0;background:transparent;color:#cbd5e1;font-size:22px}.modal-filter{padding:12px 16px;background:var(--panel2);border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 210px;gap:8px}.modal-filter input,.modal-filter select{padding:8px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text)}.modal-body{overflow:auto;padding:14px 16px}.concept{border:1px solid var(--line);border-left:4px solid #3b82f6;border-radius:8px;padding:11px 12px;margin-bottom:9px}.concept-top{display:flex;justify-content:space-between;align-items:start;gap:10px}.concept h4{margin:0 0 5px;font-size:13px}.concept p{font-size:11px;line-height:1.55;margin:4px 0;color:var(--muted)}.mini-actions{display:flex;gap:5px}.mini{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:6px;padding:5px 7px;font-size:10px}
+.tabs{display:flex;gap:6px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel2)}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:6px;padding:7px 10px;font-size:11px;font-weight:700}.tab.active{border-color:#fda4af;background:#fff1f2;color:#be123c}html.dark .tab.active{background:#4c0519}.wrong-item{display:flex;justify-content:space-between;gap:12px;padding:11px;border:1px solid var(--line);border-left:4px solid #f43f5e;border-radius:8px;margin-bottom:8px}.wrong-item.book{border-left-color:#f59e0b}.wrong-item strong{font-size:12px}.wrong-item p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+.print-only{display:none}
+@media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.controls{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(3,1fr)}.top-actions .hide-md{display:none}}
+@media(max-width:650px){header{height:auto;min-height:64px;padding:10px 12px;align-items:flex-start}.brand strong{font-size:13px}.version{display:none}.top-actions{gap:4px}.btn{padding:6px 8px}.app{padding:12px}.controls{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.floating{align-items:flex-start;flex-direction:column}.modal-filter{grid-template-columns:1fr}}
+@media print{
+ @page{size:A4;margin:12mm}body{background:#fff!important;color:#000!important}.no-print,header,.sidebar,.control-panel,.stats,.notice,.course-head,.floating,footer,.modal-back{display:none!important}.app{display:block;max-width:none;padding:0}.content{width:100%}.print-only{display:block}.print-title{text-align:center;font-size:19pt;font-weight:800;margin-bottom:3mm}.print-meta{text-align:right;font-size:8.5pt;margin-bottom:4mm}.card{box-shadow:none;border:0;border-bottom:1px solid #bbb;border-radius:0;padding:5mm 0;break-inside:avoid}.qnum{background:#fff!important;color:#000;border:1px solid #555}.badge{background:#fff;color:#444;border-color:#aaa}.question{font-size:10.5pt}.option{border:0;padding:1.4mm 0;background:#fff!important;font-size:9.5pt}.option input{display:none}.bookmark{display:none}.explain{display:none!important}.answer-sheet{display:none}.print-answer .quiz{display:none}.print-answer .answer-sheet{display:block}.answer-sheet table{width:100%;border-collapse:collapse;font-size:8.5pt}.answer-sheet th,.answer-sheet td{border:1px solid #777;padding:5px;vertical-align:top}.print-problem .answer-sheet{display:none}
+}
+</style>
+</head>
+<body>
+<header class="no-print">
+ <div class="brand"><div class="logo">E</div><div><strong>전장 설계 실무 아카데미 Quiz</strong><span class="version">v4.7.0 · 1,800 Questions Bank</span></div></div>
+ <div class="top-actions">
+  <button class="btn btn-amber hide-md" id="customSelectBtn">🎯 문제 직접 선택</button>
+  <button class="btn mode-exam" id="modeBtn" title="시험/학습 모드 전환">⚡ <span id="modeText">실전 시험 모드</span></button>
+  <button class="btn btn-nav timer" id="timerBtn">⏱ <span id="timerText">00:00</span></button>
+  <button class="btn btn-nav hide-md" id="glossaryBtn">📘 용어사전</button>
+  <button class="btn btn-nav hide-md" id="wrongBtn">📝 오답노트 <span id="wrongBadge"></span></button>
+  <button class="btn btn-nav hide-md" id="problemPrintBtn">🖨 문제지</button>
+  <button class="btn btn-nav hide-md" id="answerPrintBtn">🖨 답안지 (🔒)</button>
+  <button class="btn btn-blue" id="newBtn">↻ 새 문제</button>
+  <button class="btn btn-green" id="gradeBtn">🔒 정답 확인 & 채점</button>
+  <button class="btn btn-nav" id="themeBtn" title="테마 전환">🌙</button>
+ </div>
+</header>
+
+<div class="app">
+ <aside class="sidebar no-print">
+  <h3>교육과정</h3>
+  <button class="course active" data-cat="ALL"><span>전체 통합 과정</span><small id="allCount"></small></button>
+  <div id="courseList"></div>
+ </aside>
+
+ <main class="content">
+  <div class="print-only"><div class="print-title">전장 설계 실무 아카데미 Quiz</div><div class="print-meta" id="printMeta"></div></div>
+
+  <section class="control-panel no-print">
+   <div class="control-title"><span>⚙ 문제 출제 옵션 & 필터</span><button class="mini" id="resetFilter">✨ 조건 초기화</button></div>
+   <div class="controls">
+    <div class="ctrl"><label>문항 수</label><select id="countSel"><option value="10">10 문항</option><option value="20" selected>20 문항</option><option value="30">30 문항</option><option value="50">50 문항</option></select></div>
+    <div class="ctrl"><label>난이도</label><select id="diffSel"><option value="ALL">전체 난이도</option><option>기초</option><option>중급</option><option>실무</option></select></div>
+    <div class="ctrl"><label>문제 유형</label><select id="typeSel"><option value="ALL">전체 문제 유형</option><option>용어</option><option>실무판단</option><option>계산</option><option>고장진단</option></select></div>
+    <div class="ctrl"><label>출제 방식</label><select id="pickSel"><option value="balanced">분야 균형 출제</option><option value="random">완전 랜덤</option><option value="weak">오답 취약점 우선</option><option value="custom">🎯 사용자 직접 선택</option></select></div>
+    <div class="ctrl"><label>키워드 검색</label><input id="searchInput" placeholder="예: MCCB, SCCR, 24V, STO"></div>
+   </div>
+  </section>
+
+  <section class="stats no-print">
+   <div class="stat"><b id="bankStat">-</b><span>총 문제은행</span></div>
+   <div class="stat"><b id="shownStat">-</b><span>현재 출제</span></div>
+   <div class="stat"><b id="answeredStat">0</b><span>응답 완료</span></div>
+   <div class="stat"><b id="scoreStat">-</b><span>점수</span></div>
+   <div class="stat"><b id="correctStat">-</b><span>정답 수</span></div>
+   <div class="stat"><b id="wrongStat">-</b><span>오답 수</span></div>
+  </section>
+
+  <div class="notice no-print"><strong>실무 가이드 [STD-01]:</strong> 본 프로그램은 전장 설계, PANEL, 보호기기, 전원, 히터, 모터·서보·인버터, PLC·I/O, 센서, 통신, Safety, 규격, EMC, 케이블, ECAD, 제작·작업, 계산 및 고장진단 학습용입니다. 실제 제작·시공에는 프로젝트 사양서, 최신 적용 규격 및 제조사 Manual/Wiring/Pin Map을 최우선 적용하십시오.</div>
+
+  <section class="course-head no-print">
+   <div class="course-head-row"><h2 id="courseTitle">전체 통합 실무 과정</h2><span id="modeIndicator" style="font-size:11px;color:#2563eb;font-weight:700">● 실전 시험 & 채점 모드</span></div>
+   <div class="chips" id="chips"></div>
+  </section>
+
+  <section class="quiz" id="quiz"></section>
+  <section class="answer-sheet print-only" id="answerSheet"></section>
+
+  <div class="floating no-print" id="floating">
+   <div class="progress">진행: <strong id="progressAnswered">0</strong> / <span id="progressTotal">0</span> · <span id="progressResult"></span></div>
+   <div style="display:flex;gap:7px;flex-wrap:wrap"><button class="btn btn-light" onclick="scrollTo({top:0,behavior:'smooth'})">↑ TOP</button><button class="btn btn-nav" id="bottomNew">↻ 새 문제 출제</button><button class="btn btn-green" id="bottomGrade">🔒 정답 확인 & 채점</button></div>
+  </div>
+ </main>
+</div>
+
+<footer class="no-print"><span>● 시스템 정상 가동 · 완전 오프라인 · 지식DB 1,630문항 무손실 탑재</span><span><button class="mini" id="footerGlossary">기술 사전 열기</button></span></footer>
+
+<div class="modal-back no-print" id="glossaryModal">
+ <div class="modal">
+  <div class="modal-head"><div><h2>📘 전장 설계 핵심 용어사전 <span id="conceptCount"></span></h2><div style="font-size:10px;color:#94a3b8;margin-top:3px">정의 · 실무 적용 · 핵심 주의사항</div></div><button class="xbtn" data-close="glossaryModal">×</button></div>
+  <div class="modal-filter"><input id="glossarySearch" placeholder="용어, 정의, 주의사항 검색"><select id="glossaryCat"><option value="ALL">전체 분야</option></select></div>
+  <div class="modal-body" id="glossaryBody"></div>
+ </div>
+</div>
+
+<div class="modal-back no-print" id="wrongModal">
+ <div class="modal">
+  <div class="modal-head"><div><h2>📝 전장 실무 오답노트 & 중요 문항</h2><div style="font-size:10px;color:#94a3b8;margin-top:3px">틀린 개념과 북마크를 브라우저에 저장합니다.</div></div><button class="xbtn" data-close="wrongModal">×</button></div>
+  <div class="tabs"><button class="tab active" data-tab="wrong">오답 취약점</button><button class="tab" data-tab="book">북마크 보관함</button><span style="flex:1"></span><button class="mini" id="retryWrong">↻ 오답 집중 재응시</button><button class="mini" id="clearWrong">기록 비우기</button></div>
+  <div class="modal-body" id="wrongBody"></div>
+ </div>
+</div>
+
+<div class="modal-back no-print" id="customSelectModal">
+ <div class="modal" style="width:min(1000px,100%)">
+  <div class="modal-head" style="background:#1e293b">
+   <div>
+    <h2>🎯 문제 직접 선택 출제 (Custom Selection)</h2>
+    <div style="font-size:11px;color:#cbd5e1;margin-top:3px">1,630개 문제 중 원하는 문제를 직접 체크하여 출제합니다.</div>
+   </div>
+   <button class="xbtn" data-close="customSelectModal">×</button>
+  </div>
+  <div class="modal-filter" style="grid-template-columns:1fr 180px 140px;gap:8px">
+   <input id="customSearch" placeholder="문제 내용, 카테고리, 키워드 검색">
+   <select id="customCat"><option value="ALL">전체 분야</option></select>
+   <select id="customDiff"><option value="ALL">전체 난이도</option><option>기초</option><option>중급</option><option>실무</option><option>고급</option></select>
+  </div>
+  <div style="padding:10px 16px;background:var(--panel2);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+   <div style="font-size:12px;font-weight:700">
+    선택된 문항: <span id="customSelectedCount" style="color:#2563eb;font-size:14px">0</span>개 / 표시된 문항: <span id="customFilteredCount">0</span>개
+   </div>
+   <div style="display:flex;gap:6px">
+    <button class="mini" id="customSelectAllVisible">현재 목록 전체선택</button>
+    <button class="mini" id="customClearAll">선택 전체해제</button>
+    <button class="btn btn-blue" id="customApplyBtn" style="padding:6px 14px;font-size:12px">🚀 선택한 문제로 출제</button>
+   </div>
+  </div>
+  <div class="modal-body" id="customListBody" style="max-height:55vh;padding:12px 16px"></div>
+ </div>
+</div>
+
+<div class="modal-back no-print" id="passwordModal">
+ <div class="modal" style="width:min(420px,94%)">
+  <div class="modal-head" style="background:#0f172a">
+   <div>
+    <h2>🔒 정답 확인 보안 인증</h2>
+    <div style="font-size:11px;color:#94a3b8;margin-top:2px">정답 및 해설 열람 보안 비밀번호 입력</div>
+   </div>
+   <button class="xbtn" data-close="passwordModal">×</button>
+  </div>
+  <div class="modal-body" style="padding:20px">
+   <p style="margin:0 0 14px;font-size:13px;color:var(--text);line-height:1.5">
+    정답과 해설, 채점 결과 및 답안지를 확인하려면 프로그램에 설정된 <strong>보안 패스워드</strong>를 입력하십시오.
+   </p>
+   <div style="margin-bottom:12px">
+    <input type="password" id="pwdInput" placeholder="비밀번호 입력" maxlength="10" autocomplete="off" style="width:100%;padding:10px 12px;font-size:16px;font-weight:700;letter-spacing:0.25em;border:2px solid var(--line);border-radius:8px;background:var(--panel2);color:var(--text);outline:none;text-align:center">
+   </div>
+   <div id="pwdError" style="display:none;color:#e11d48;font-size:12px;font-weight:700;margin-bottom:12px;text-align:center">
+    ⚠️ 비밀번호가 일치하지 않습니다. 다시 입력해 주세요.
+   </div>
+   <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px">
+    <button class="btn btn-light" id="pwdCancelBtn" style="padding:8px 14px">취소</button>
+    <button class="btn btn-green" id="pwdConfirmBtn" style="padding:8px 18px">인증 및 정답 확인</button>
+   </div>
+  </div>
+ </div>
+</div>
+
+<script src="./src/knowledge.js"></script>
+</body>
+</html>

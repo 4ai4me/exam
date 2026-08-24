@@ -1,0 +1,6 @@
+{
+  "name": "전장 설계 실무 아카데미 Quiz",
+  "description": "전장 설계, 제어반, 보호기기, 전원, 히터, 모터·서보, PLC/IO, 통신, Safety, 규격 및 고장진단 실무 교육 및 시험 문제 검토 프로그램",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
