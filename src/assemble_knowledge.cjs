@@ -15,7 +15,7 @@ console.log(`Parsed allRaw count: ${allRaw.length}`);
 
 // For scenarios, let's find the SCENARIOS block
 const scenariosStart = originalText.indexOf('const SCENARIOS = [');
-const scenariosEnd = originalText.indexOf('function generateConceptQuestions()');
+const scenariosEnd = originalText.indexOf('function distinct(');
 const scenariosBlock = originalText.slice(scenariosStart + 'const SCENARIOS = '.length, scenariosEnd).trim().replace(/;$/, '');
 
 const allScenarios = JSON.parse(scenariosBlock);
@@ -48,7 +48,7 @@ const CONCEPTS = RAW.map((r, i) => ({
   id: "c-" + (i + 1),
   category: r[0],
   term: r[1],
-  desc: r[2],
+  definition: r[2],
   use: r[3],
   caution: r[4],
   selection: r[5],
