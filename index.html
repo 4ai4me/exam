@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>전장 설계 실무 아카데미 Quiz v4.7</title>
-<meta name="description" content="전장 설계 실무 아카데미 오프라인 단일 HTML 버전">
+<title>전장 설계 실무 아카데미 Quiz v5.0</title>
+<meta name="description" content="전장 설계 실무 아카데미 오프라인 단일 HTML 버전 - 40종 회로 심볼(IEC/NFPA) 도감 및 2,000문항 문제은행">
 <style>
-:root{--bg:#f8fafc;--panel:#fff;--panel2:#f8fafc;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--nav:#1e293b;--blue:#2563eb;--green:#059669;--red:#e11d48;--amber:#d97706;--shadow:0 4px 16px rgba(15,23,42,.07)}
+:root{--bg:#f8fafc;--panel:#fff;--panel2:#f8fafc;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--nav:#1e293b;--blue:#2563eb;--green:#059669;--red:#e11d48;--amber:#d97706;--purple:#7c3aed;--shadow:0 4px 16px rgba(15,23,42,.07)}
 html.dark{--bg:#0f172a;--panel:#111827;--panel2:#172033;--text:#e5e7eb;--muted:#94a3b8;--line:#293548;--shadow:0 4px 16px rgba(0,0,0,.25)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",Arial,sans-serif}
 button,select,input{font:inherit}button{cursor:pointer}
@@ -14,7 +14,7 @@ header{height:64px;position:sticky;top:0;z-index:50;background:var(--nav);color:
 .brand{display:flex;align-items:center;gap:10px;min-width:250px}.logo{width:32px;height:32px;border-radius:6px;background:#3b82f6;display:grid;place-items:center;font-weight:900;font-style:italic}.brand strong{font-size:16px}.version{font-size:11px;color:#94a3b8;margin-left:5px}
 .top-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;justify-content:flex-end}
 .btn{border:1px solid transparent;border-radius:7px;padding:7px 10px;font-size:12px;font-weight:700;transition:.15s}
-.btn:hover{filter:brightness(.96)}.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#059669;color:#fff}.btn-amber{background:#d97706;color:#fff}.btn-nav{background:#263449;color:#e2e8f0;border-color:#435168}.btn-light{background:var(--panel);color:var(--text);border-color:var(--line)}
+.btn:hover{filter:brightness(.96)}.btn-blue{background:#2563eb;color:#fff}.btn-green{background:#059669;color:#fff}.btn-amber{background:#d97706;color:#fff}.btn-purple{background:#7c3aed;color:#fff;border-color:#6d28d9}.btn-purple:hover{background:#6d28d9}.btn-nav{background:#263449;color:#e2e8f0;border-color:#435168}.btn-light{background:var(--panel);color:var(--text);border-color:var(--line)}
 .timer{font-family:Consolas,monospace;min-width:76px;text-align:center}.mode-study{background:#064e3b;color:#a7f3d0;border-color:#047857}.mode-exam{background:#312e81;color:#c7d2fe;border-color:#4338ca}
 .app{max-width:1450px;margin:auto;padding:20px;display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}
 .sidebar{position:sticky;top:84px;align-self:start;max-height:calc(100vh - 105px);overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--shadow)}
@@ -36,6 +36,26 @@ header{height:64px;position:sticky;top:0;z-index:50;background:var(--nav);color:
 footer{height:48px;background:var(--panel);border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 22px;color:var(--muted);font-size:11px;margin-top:25px}
 .modal-back{display:none;position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.6);align-items:center;justify-content:center;padding:18px}.modal-back.open{display:flex}.modal{width:min(900px,100%);max-height:88vh;background:var(--panel);border:1px solid var(--line);border-radius:13px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.35)}.modal-head{padding:15px 18px;background:#1e293b;color:#fff;display:flex;align-items:center;justify-content:space-between}.modal-head h2{font-size:15px;margin:0}.xbtn{border:0;background:transparent;color:#cbd5e1;font-size:22px}.modal-filter{padding:12px 16px;background:var(--panel2);border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr 210px;gap:8px}.modal-filter input,.modal-filter select{padding:8px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text)}.modal-body{overflow:auto;padding:14px 16px}.concept{border:1px solid var(--line);border-left:4px solid #3b82f6;border-radius:8px;padding:11px 12px;margin-bottom:9px}.concept-top{display:flex;justify-content:space-between;align-items:start;gap:10px}.concept h4{margin:0 0 5px;font-size:13px}.concept p{font-size:11px;line-height:1.55;margin:4px 0;color:var(--muted)}.mini-actions{display:flex;gap:5px}.mini{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:6px;padding:5px 7px;font-size:10px}
 .tabs{display:flex;gap:6px;padding:11px 16px;border-bottom:1px solid var(--line);background:var(--panel2)}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:6px;padding:7px 10px;font-size:11px;font-weight:700}.tab.active{border-color:#fda4af;background:#fff1f2;color:#be123c}html.dark .tab.active{background:#4c0519}.wrong-item{display:flex;justify-content:space-between;gap:12px;padding:11px;border:1px solid var(--line);border-left:4px solid #f43f5e;border-radius:8px;margin-bottom:8px}.wrong-item.book{border-left-color:#f59e0b}.wrong-item strong{font-size:12px}.wrong-item p{font-size:10px;color:var(--muted);margin:5px 0 0;line-height:1.5}
+
+/* Circuit Symbols Specific Styles */
+.sym-card{display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin-bottom:14px;box-shadow:var(--shadow)}
+.sym-card-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.sym-card-header h3{margin:0;font-size:15px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:6px}
+.sym-card-main{display:grid;grid-template-columns:130px 1fr;gap:14px;align-items:center}
+@media(max-width:600px){.sym-card-main{grid-template-columns:1fr}}
+.sym-visual-box{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--panel2);border:1px dashed var(--line);border-radius:8px;padding:10px}
+.sym-svg{width:100px;height:100px;display:block;color:var(--text)}
+.sym-std-table{width:100%;border-collapse:collapse;font-size:11.5px;margin-bottom:6px}
+.sym-std-table th{width:90px;background:var(--panel2);padding:5px 8px;border:1px solid var(--line);font-weight:700;color:var(--text);text-align:left}
+.sym-std-table td{padding:5px 8px;border:1px solid var(--line);color:var(--text);line-height:1.45}
+.sym-practical{font-size:11.5px;line-height:1.45;color:var(--text);background:rgba(37,99,235,0.05);border-left:3px solid #2563eb;padding:6px 10px;border-radius:0 6px 6px 0;margin-top:4px}
+.sym-caution{font-size:11.5px;line-height:1.45;color:var(--text);background:rgba(225,29,72,0.05);border-left:3px solid #e11d48;padding:6px 10px;border-radius:0 6px 6px 0;margin-top:4px}
+.q-symbol-box{display:flex;align-items:center;gap:16px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;margin:10px 0 14px}
+.q-symbol-box .q-symbol-svg{width:70px;height:70px;flex-shrink:0}
+.q-symbol-box .sym-svg{width:70px;height:70px}
+.q-symbol-meta{font-size:12px;color:var(--text);line-height:1.4}
+.q-symbol-meta strong{color:#7c3aed;display:block;font-size:13px;margin-bottom:2px}
+
 .print-only{display:none}
 @media(max-width:1050px){.app{grid-template-columns:1fr}.sidebar{position:static;max-height:none}.controls{grid-template-columns:1fr 1fr}.stats{grid-template-columns:repeat(3,1fr)}.top-actions .hide-md{display:none}}
 @media(max-width:650px){header{height:auto;min-height:64px;padding:10px 12px;align-items:flex-start}.brand strong{font-size:13px}.version{display:none}.top-actions{gap:4px}.btn{padding:6px 8px}.app{padding:12px}.controls{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.floating{align-items:flex-start;flex-direction:column}.modal-filter{grid-template-columns:1fr}}
@@ -46,11 +66,12 @@ footer{height:48px;background:var(--panel);border-top:1px solid var(--line);disp
 </head>
 <body>
 <header class="no-print">
- <div class="brand"><div class="logo">E</div><div><strong>전장 설계 실무 아카데미 Quiz</strong><span class="version">v4.8.0 · 1,960 Questions Bank</span></div></div>
+ <div class="brand"><div class="logo">E</div><div><strong>전장 설계 실무 아카데미 Quiz</strong><span class="version">v5.0.0 · 2,000 Questions & 40 Symbols DB</span></div></div>
  <div class="top-actions">
   <button class="btn btn-amber hide-md" id="customSelectBtn">🎯 문제 직접 선택</button>
   <button class="btn mode-exam" id="modeBtn" title="시험/학습 모드 전환">⚡ <span id="modeText">실전 시험 모드</span></button>
   <button class="btn btn-nav timer" id="timerBtn">⏱ <span id="timerText">00:00</span></button>
+  <button class="btn btn-purple hide-md" id="symbolsBtn">📐 회로 심볼 사전</button>
   <button class="btn btn-nav hide-md" id="glossaryBtn">📘 용어사전</button>
   <button class="btn btn-nav hide-md" id="wrongBtn">📝 오답노트 <span id="wrongBadge"></span></button>
   <button class="btn btn-nav hide-md" id="problemPrintBtn">🖨 문제지</button>
@@ -108,7 +129,24 @@ footer{height:48px;background:var(--panel);border-top:1px solid var(--line);disp
  </main>
 </div>
 
-<footer class="no-print"><span>● 시스템 정상 가동 · 완전 오프라인 · 지식DB 1,960문항 무손실 탑재</span><span><button class="mini" id="footerGlossary">기술 사전 열기</button></span></footer>
+<footer class="no-print"><span>● 시스템 정상 가동 · 완전 오프라인 · 지식DB 2,000문항 & 40종 회로 심볼(IEC/NFPA) 도감 무손실 탑재</span><span><button class="mini" id="footerSymbols" style="margin-right:6px">회로 심볼 사전</button><button class="mini" id="footerGlossary">기술 사전 열기</button></span></footer>
+
+<div class="modal-back no-print" id="symbolsModal">
+ <div class="modal" style="width:min(950px,96%)">
+  <div class="modal-head" style="background:#581c87">
+   <div>
+    <h2>📐 전기 회로 40대 핵심 심볼 도감 & 비교 사전 (IEC vs NFPA) <span id="symbolCount"></span></h2>
+    <div style="font-size:11px;color:#e9d5ff;margin-top:3px">BJT · MOSFET · IGBT · SCR · TRIAC · 다이오드 · 저항 · 커패시터 · 차단기 · 모터 · 센서 40종 벡터 그래픽 & 표준 비교</div>
+   </div>
+   <button class="xbtn" data-close="symbolsModal">×</button>
+  </div>
+  <div class="modal-filter">
+   <input id="symbolsSearch" placeholder="심볼명(MOSFET, IGBT, E-Stop, 저항), 규격(IEC, NFPA), 실무 용도 검색...">
+   <select id="symbolsCat"><option value="ALL">전체 분야</option></select>
+  </div>
+  <div class="modal-body" id="symbolsBody" style="max-height:65vh;padding:16px"></div>
+ </div>
+</div>
 
 <div class="modal-back no-print" id="glossaryModal">
  <div class="modal">
@@ -131,7 +169,7 @@ footer{height:48px;background:var(--panel);border-top:1px solid var(--line);disp
   <div class="modal-head" style="background:#1e293b">
    <div>
     <h2>🎯 문제 직접 선택 출제 (Custom Selection)</h2>
-    <div style="font-size:11px;color:#cbd5e1;margin-top:3px">1,960개 문제 중 원하는 문제를 직접 체크하여 출제합니다.</div>
+    <div style="font-size:11px;color:#cbd5e1;margin-top:3px">2,000개 문제 중 원하는 문제를 직접 체크하여 출제합니다.</div>
    </div>
    <button class="xbtn" data-close="customSelectModal">×</button>
   </div>
